@@ -3,12 +3,8 @@
 require 'Open3'
 require 'etc'
 
-
-require 'pry-nav'
-
 class UnixTrigger
   def self.create_process(path)
-    # handle error
     stdin, stdout, stderr, thr = Open3.popen3(path)
     pid = thr[:pid]
     err = stderr.read
@@ -21,8 +17,7 @@ class UnixTrigger
       log(context: { method: 'create_process', msg: err }, error: true)
     end
 
-    stdin.close
-    stdout.close
+    close_pipes(stdin, stdout, stderr)
   end
 
   def self.new_file(path)
@@ -37,8 +32,7 @@ class UnixTrigger
       log(context: { method: 'new_file', msg: err }, error: true)
     end
 
-    stdin.close
-    stdout.close
+    close_pipes(stdin, stdout, stderr)
   end
 
   def self.modify_file(path, string)
@@ -54,8 +48,7 @@ class UnixTrigger
       log(context: { method: 'modify_file', msg: err }, error: true)
     end
 
-    stdin.close
-    stdout.close
+    close_pipes(stdin, stdout, stderr)
   end
 
   def self.delete_file(path)
@@ -71,8 +64,7 @@ class UnixTrigger
       log(context: { method: 'delete_file', msg: err }, error: true)
     end
 
-    stdin.close
-    stdout.close
+    close_pipes(stdin, stdout, stderr)
   end
 
   def self.establish_connection(destination_host, destination_port, source_port)
@@ -86,8 +78,7 @@ class UnixTrigger
       log(context: { method: 'establish_connection', user:, pid:, msg: }, error: true)
     end
 
-    stdin.close
-    stdout.close
+    close_pipes(stdin, stdout, stderr)
   end
 
   def self.log(context:, error: false)
@@ -100,5 +91,11 @@ class UnixTrigger
 
   def self.user
     Etc.getlogin
+  end
+
+  def self.close_pipes(stdin, stdout, stderr)
+    stdin.close
+    stdout.close
+    stderr.close
   end
 end
