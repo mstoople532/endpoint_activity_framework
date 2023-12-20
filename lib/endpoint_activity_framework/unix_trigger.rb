@@ -12,7 +12,6 @@ class UnixTrigger
 
     if err.empty?
       log(context: { method: 'create_process', path: abs_path, pid:, user: })
-      stdout.read.chomp!
     else
       log(context: { method: 'create_process', msg: err }, error: true)
     end
@@ -25,9 +24,9 @@ class UnixTrigger
     pid = thr[:pid]
     err = stderr.read
     abs_path = current_absolute_path(path)
+
     if err.empty?
       log(context: { method: 'new_file', path: abs_path, pid:, user: })
-      stdout.read.chomp!
     else
       log(context: { method: 'new_file', msg: err }, error: true)
     end
@@ -43,7 +42,6 @@ class UnixTrigger
 
     if err.empty?
       log(context: { method: 'modify_file', path: abs_path, pid:, user: })
-      stdout.read.chomp!
     else
       log(context: { method: 'modify_file', msg: err }, error: true)
     end
@@ -59,7 +57,6 @@ class UnixTrigger
 
     if err.empty?
       log(context: { method: 'delete_file', path: abs_path, pid:, user: })
-      stdout.read.chomp!
     else
       log(context: { method: 'delete_file', msg: err }, error: true)
     end
