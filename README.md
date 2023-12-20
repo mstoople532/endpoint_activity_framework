@@ -13,6 +13,11 @@ The Framework uses the Thor gem to set up a cli for interacting with the endpoin
 
 You can list documented commands and their arguments with `ruby lib/endpoint_activity_framework.rb --help`
 
+The new file command creates a new file.
+The file modification command appends a given string to an existing file.
+The file deletion command deletes a given file.
+The network connection currently uses netcat and supports tcp connection.
+
 This framework is currently compatible with linux and macos systems. All activity is logged in the project root as JSON in 'activity_log.log'
 
 ## License
